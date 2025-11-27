@@ -1,0 +1,115 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Servicio de Clima Actual",
+    "description": "API REST para consultar el clima actual por país y ciudad. Ideal para integración MCP.",
+    "contact": {
+      "name": "Soporte Clima",
+      "email": "soporte@ejemplo.com"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/clima": {
+      "get": {
+        "summary": "Obtener clima actual por país y ciudad",
+        "description": "Devuelve el clima actual para una ciudad y país soportados.",
+        "operationId": "clima_clima_get",
+        "parameters": [
+          {
+            "name": "pais",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Nombre del país en minúsculas, por ejemplo: 'peru'",
+              "title": "Pais"
+            },
+            "description": "Nombre del país en minúsculas, por ejemplo: 'peru'"
+          },
+          {
+            "name": "ciudad",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Nombre de la ciudad en minúsculas, por ejemplo: 'lima'",
+              "title": "Ciudad"
+            },
+            "description": "Nombre de la ciudad en minúsculas, por ejemplo: 'lima'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos meteorológicos actuales de la ciudad.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
